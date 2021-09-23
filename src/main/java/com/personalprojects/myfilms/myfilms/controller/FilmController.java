@@ -27,7 +27,7 @@ public class FilmController {
 	private FilmService filmService;
 	
 	@GetMapping
-	public ResponseEntity<List<Film>> allFilms(){
+	public ResponseEntity<List<Film>> listAllFilms(){
 		return new ResponseEntity<>(filmService.listAll(), HttpStatus.OK);
 	}
 	
@@ -51,7 +51,8 @@ public class FilmController {
 	@PutMapping
 	public ResponseEntity<Void> replace(@RequestBody FilmPutRequestBody filmPutRequestBody){
 		filmService.replace(filmPutRequestBody);
-		return null;
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		
 	}
 	
 }

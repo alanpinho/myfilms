@@ -3,9 +3,7 @@ package com.personalprojects.myfilms.myfilms.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.personalprojects.myfilms.myfilms.exception.BadRequestException;
 import com.personalprojects.myfilms.myfilms.mapper.FilmMapper;
@@ -33,7 +31,9 @@ public class FilmService {
 
 	public List<Film> listAll() {
 		
-		return filmRepository.findAll();
+		List<Film> films = filmRepository.findAll();
+		
+		return films;
 	}
 
 	public void delete(Long id) {

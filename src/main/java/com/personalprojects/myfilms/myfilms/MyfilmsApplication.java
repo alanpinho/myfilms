@@ -20,8 +20,8 @@ public class MyfilmsApplication implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception{
-		FilmPostRequestBody f1 = new FilmPostRequestBody("Matrix", 2001L);
-		FilmPostRequestBody f2 = new FilmPostRequestBody("Matrix Reloaded", 2002L);
+		FilmPostRequestBody f1 = new FilmPostRequestBody("Matrix", 2001);
+		FilmPostRequestBody f2 = new FilmPostRequestBody("Matrix Reloaded", 2002);
 		
 		filmService.save(f1);
 		filmService.save(f2);

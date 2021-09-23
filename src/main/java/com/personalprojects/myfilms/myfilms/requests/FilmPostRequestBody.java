@@ -1,14 +1,16 @@
 package com.personalprojects.myfilms.myfilms.requests;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class FilmPostRequestBody {
 
 	private String name;
-	private Long releaseYear;
+	private Integer releaseYear;
 	
-	public FilmPostRequestBody(String name, Long releaseYear) {
+	public FilmPostRequestBody(String name, Integer releaseYear) {
 		this.name = name;
 		this.releaseYear = releaseYear;
 	}
