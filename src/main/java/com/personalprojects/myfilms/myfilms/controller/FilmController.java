@@ -2,6 +2,8 @@ package com.personalprojects.myfilms.myfilms.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,7 @@ public class FilmController {
 	}
 	
 	@PostMapping("/new")
-	public ResponseEntity<Film> save(@RequestBody FilmPostRequestBody filmPostRequestBody){
+	public ResponseEntity<Film> save(@Valid @RequestBody FilmPostRequestBody filmPostRequestBody){
 		return new ResponseEntity<>(filmService.save(filmPostRequestBody), HttpStatus.CREATED);
 	}
 	
@@ -49,7 +51,7 @@ public class FilmController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Void> replace(@RequestBody FilmPutRequestBody filmPutRequestBody){
+	public ResponseEntity<Void> replace(@Valid @RequestBody FilmPutRequestBody filmPutRequestBody){
 		filmService.replace(filmPutRequestBody);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		
