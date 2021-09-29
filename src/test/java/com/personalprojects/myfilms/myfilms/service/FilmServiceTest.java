@@ -17,8 +17,10 @@ import com.personalprojects.myfilms.myfilms.exception.BadRequestException;
 import com.personalprojects.myfilms.myfilms.model.Film;
 import com.personalprojects.myfilms.myfilms.repository.FilmRepository;
 import com.personalprojects.myfilms.myfilms.requests.FilmPostRequestBody;
+import com.personalprojects.myfilms.myfilms.requests.FilmPutRequestBody;
 import com.personalprojects.myfilms.myfilms.util.FilmCreator;
 import com.personalprojects.myfilms.myfilms.util.FilmPostRequestBodyCreator;
+import com.personalprojects.myfilms.myfilms.util.FilmPutRequestBodyCreator;
 
 @ExtendWith(SpringExtension.class)
 class FilmServiceTest {	
@@ -90,5 +92,21 @@ class FilmServiceTest {
 		
 		Assertions.assertThatCode(() -> filmService.delete(film2.getId())).isNotNull();
 		Assertions.assertThatCode(() -> filmService.delete(film2.getId())).isInstanceOf(BadRequestException.class);		
-	}	
+	}
+	
+	@Test
+	@DisplayName("replace updates film when successful")
+	void replace_UpdatesFilm_WhenSuccessful() {
+		FilmPostRequestBody filmPostRequestBody = FilmPostRequestBodyCreator.createFilmPostRequestBody();
+		Film savedFilm = filmService.save(filmPostRequestBody);
+
+		FilmPutRequestBody filmPutRequestBody = FilmPutRequestBodyCreator.createFilmPutRequestBody();
+		filmPutRequestBody.setName("Matrix");
+		filmService.replace(filmPutRequestBody);
+		
+		
+		Assertions.assertThatCode(() -> filmService.replace(FilmPutRequestBodyCreator.createFilmPutRequestBody())).isNull();
+		Assertions.assertThatCode(() -> filmService.replace(FilmPutRequestBodyCreator.createFilmPutRequestBody())).doesNotThrowAnyException();
+		Assertions.assertThat(savedFilm.getId()).isEqualTo(filmPutRequestBody.getId());
+	}
 }
