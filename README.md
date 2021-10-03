@@ -4,40 +4,57 @@ O myFilms é um projeto que tem por objetivo lembrar-me quais filmes ainda quero
 * Spring Boot 2.5.4;
 * Maven;
 * MapStruct;
-* H2;
+* Postgres;
+* Docker;
+* Swagger-UI;
 * Postman.
+
+## Executando o projeto
+Para executar o projeto com sucesso é necessário possuir o Docker instalado na máquina e também uma IDE que execute Java com Spring (as mais usadas são Intellij e Eclipse).
+
+É importante que o docker seja inicializado primeiro usando o comando `docker-compose up` via terminal dentro da pasta do projeto. Desta forma o banco de dados estará pronto para ser conectado ao projeto. Após inicializar o docker, você pode executar o projeto como uma Aplicação Spring Boot.
+
+Você pode efetuar as requisições através do Postman ou do navegador. Ao executar a aplicação, estará disponível no navegador a interface do Swagger através da URL http://localhost:8080/swagger-ui.html para requisições, dispensando o uso do Postman.
  
 ## Endpoints
-Por enquanto, o banco de dados é o H2 para facilitar os testes via Postman.
 Até o momento tem-se um CRUD, no qual você pode fazer as requisições da seguinte forma:
 
 ### Obter todos os filmes cadastrados no Banco de Dados (GET)
-* GET (http://localhost:8080/films) -> Lista todos os filmes no banco de dados
+* GET (http://localhost:8080/films) -> Lista todos os filmes no banco de dados.
 
-![image](https://user-images.githubusercontent.com/38019738/135019720-c90211fd-ac28-4c7d-a8bc-caf2b0c32ecb.png)
+![image](https://user-images.githubusercontent.com/38019738/135767484-6c76e5a4-ea81-4fbe-8db7-d9f476984530.png)
 
 ### Obter um filme pelo Id (GET)
-* Requisição do tipo GET para o endpoint http://localhost:8080/films/{id} (sem as chaves), substituindo o valor id pelo número correspondente ao filme no banco.
+* GET (http://localhost:8080/films/{id}) -> Retorna o filme correspondente ao ID passado na requisição (sem as chaves).
 
-![image](https://user-images.githubusercontent.com/38019738/135279860-aa312324-7511-40fe-9987-6189bfce3b0a.png)
+![image](https://user-images.githubusercontent.com/38019738/135767535-e29ddc9a-2c30-4370-a586-478db7d13f9e.png)
 
 
 ### Cadastrar um novo filme (POST)
-* Para cadastrar um novo filme no banco de dados, é necessário que uma requisição POST seja feita para http://localhost:8080/films/new. O tipo de dado que deve ser passado é um JSON e o campo name é obrigatório. Atualmente há apenas dois campos, nome (name) e ano de lançamento (releaseYear).
-
-![image](https://user-images.githubusercontent.com/38019738/135281180-84acc595-d08e-4fcf-805d-da034fe38383.png)
-
+* POST (http://localhost:8080/films/new) -> Adiciona um filme ao banco de dados. O formato suportado é JSON e o campo name (nome) é obrigatório. O modelo de requisição é apresentado logo abaixo.
+````
+{
+    "name": "Matrix Revolutions",
+    "releaseYear": 2003    
+}
+````
+![image](https://user-images.githubusercontent.com/38019738/135767691-f6c73d2a-fee8-4beb-9fc5-f07d12502539.png)
 
 
 ### Atualizar os dados de um filme (PUT)
-* Para atualizar um filme uma requisição PUT deve ser feita para o endpoint http://localhost:8080/films com os dados em JSON. Os campos id e name são obrigatórios. Isso porque para editar um filme você precisa saber qual é o ID desse filme no banco e passar um novo nome ou fazer uma correção para aquele filme;
+* PUT (http://localhost:8080/films) -> Atualiza os dados de um filme. O formato suportado é JSON e os campos id e name são obrigatórios. O modelo de requisição é apresentado logo abaixo.
+````
+{
+    "id": 19,
+    "name": "Inception",    
+    "releaseYear": 2010
+}
+````
 
-![image](https://user-images.githubusercontent.com/38019738/135282180-732609c6-6f71-4118-8240-4ef1f9619438.png)
+![image](https://user-images.githubusercontent.com/38019738/135767777-3a86863a-7a34-4600-95e5-3bed77b9a3c0.png)
 
 
 ### Deletar um filme do banco de dados (DELETE)
-Para remover um filme do banco uma requisição DELETE deve ser feita para o endponint http://localhost:8080/films/{id} (sem as chaves), substituindo o valor id pelo número correspondente ao filme no banco.
+* DELETE (http://localhost:8080/films/{id}) -> Remove um filme do banco de dados. O ID do filme a ser removido deve ser passado na requisição (sem as chaves).
 
-![image](https://user-images.githubusercontent.com/38019738/135282949-c136607b-0143-466d-8152-08701ea87d8a.png)
-
-
+![image](https://user-images.githubusercontent.com/38019738/135767824-f825e47f-9f30-4acf-b931-3404c31a3513.png)
