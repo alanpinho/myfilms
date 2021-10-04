@@ -1,8 +1,8 @@
 package com.personalprojects.myfilms.myfilms.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.personalprojects.myfilms.myfilms.exception.BadRequestException;
@@ -29,9 +29,9 @@ public class FilmService {
 		
 	}
 
-	public List<Film> listAll() {
+	public Page<Film> listAll(Pageable pageable) {
 		
-		List<Film> films = filmRepository.findAll();
+		Page<Film> films = filmRepository.findAll(pageable);
 		
 		return films;
 	}

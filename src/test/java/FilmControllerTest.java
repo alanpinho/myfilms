@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -10,6 +9,8 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -31,9 +32,10 @@ class FilmControllerTest {
 	private FilmService filmServiceMock;
 	
 	@BeforeEach
-	void setUp() {
-		List<Film> allFilms = new ArrayList<>(List.of(FilmCreator.createFilm()));
-		BDDMockito.when(filmServiceMock.listAll()).thenReturn(allFilms);
+	void setUp() {		
+		PageImpl<Film> filmsPage = new PageImpl<>(List.of(FilmCreator.createFilm()));		
+		BDDMockito.when(filmServiceMock.listAll(ArgumentMatchers.any())).thenReturn(filmsPage);		
+		
 		BDDMockito.when(filmServiceMock.findFilmByIdOrThrowBadRequestException(ArgumentMatchers.anyLong())).thenReturn(FilmCreator.createFilm());
 		BDDMockito.when(filmServiceMock.save(FilmPostRequestBodyCreator.createFilmPostRequestBody())).thenReturn(FilmCreator.createFilm());
 		BDDMockito.when(filmServiceMock.save(ArgumentMatchers.any())).thenReturn(FilmCreator.createFilm());
@@ -43,14 +45,12 @@ class FilmControllerTest {
 	
 
 	@Test
-	@DisplayName("Returns All Films")
-	void listAllFilms_ReturnAllFilms_WhenSuccessful() {
-		List<Film> expectedFilms = filmController.listAllFilms().getBody();
+	@DisplayName("istAllFilms returns all films inside a page object when successful")
+	void listAllFilms_ReturnAllFilmsInsideAPageObject_WhenSuccessful() {
+		Page<Film> expectedFilms = filmController.listAllFilms(null).getBody();
 		
-		List<Film> films = new ArrayList<>();
-		
-		films.add(FilmCreator.createFilm());
-		
+		Page<Film> films = new PageImpl<>(List.of(FilmCreator.createFilm()));
+				
 		Assertions.assertThat(expectedFilms).isEqualTo(films);	
 		Assertions.assertThat(expectedFilms).isNotNull().isNotEmpty().hasSize(1);
 	}

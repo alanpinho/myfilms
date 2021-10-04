@@ -1,10 +1,10 @@
 package com.personalprojects.myfilms.myfilms.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,8 +36,8 @@ public class FilmController {
 	@Operation(summary = "Returns a List with all films in the database")
 	@ApiResponses(
 		@ApiResponse(responseCode = "200", description="When the operation is successful"))
-	public ResponseEntity<List<Film>> listAllFilms(){
-		return new ResponseEntity<>(filmService.listAll(), HttpStatus.OK);
+	public ResponseEntity<Page<Film>> listAllFilms(Pageable pageable){
+		return new ResponseEntity<>(filmService.listAll(pageable), HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

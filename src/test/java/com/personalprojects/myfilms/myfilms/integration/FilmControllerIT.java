@@ -1,7 +1,5 @@
 package com.personalprojects.myfilms.myfilms.integration;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +19,7 @@ import com.personalprojects.myfilms.myfilms.repository.FilmRepository;
 import com.personalprojects.myfilms.myfilms.requests.FilmPostRequestBody;
 import com.personalprojects.myfilms.myfilms.util.FilmCreator;
 import com.personalprojects.myfilms.myfilms.util.FilmPostRequestBodyCreator;
+import com.personalprojects.myfilms.myfilms.wrapper.PageableResponse;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase
@@ -40,13 +39,13 @@ class FilmControllerIT {
 		
 		Film expectedFilm = FilmCreator.createFilm();
 		
-		List<Film> allFilms = testRestTemplate.exchange("/films", HttpMethod.GET, null, new ParameterizedTypeReference<List<Film>>() {
+		PageableResponse<Film> allFilms = testRestTemplate.exchange("/films", HttpMethod.GET, null, new ParameterizedTypeReference<PageableResponse<Film>>() {
 		}).getBody();
 		
 		Assertions.assertThat(allFilms).isNotEmpty().isNotNull();
 		Assertions.assertThat(savedFilm).isEqualTo(expectedFilm);
 		Assertions.assertThat(allFilms).hasSize(1);
-		Assertions.assertThat(allFilms.get(0).getName()).isEqualTo(expectedFilm.getName()).isEqualTo(savedFilm.getName());
+		Assertions.assertThat(allFilms.toList().get(0).getName()).isEqualTo(expectedFilm.getName()).isEqualTo(savedFilm.getName());
 	}
 	
 	@Test

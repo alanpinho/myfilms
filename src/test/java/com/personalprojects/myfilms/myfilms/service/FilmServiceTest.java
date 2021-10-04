@@ -8,9 +8,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.personalprojects.myfilms.myfilms.exception.BadRequestException;
@@ -34,10 +39,11 @@ class FilmServiceTest {
 	void setUp() {
 		Film film = FilmCreator.createFilm();
 		Film filmToBeSaved = FilmCreator.createFilmWithoutId();
+		Page<Film> filmsPage =  new PageImpl<>(List.of(film));		
 		
 		BDDMockito.when(filmRepositoryMock.findById(film.getId())).thenReturn(Optional.of(film));
 		BDDMockito.when(filmRepositoryMock.save(filmToBeSaved)).thenReturn(film);
-		BDDMockito.when(filmRepositoryMock.findAll()).thenReturn(List.of(film));					
+		BDDMockito.when(filmRepositoryMock.findAll(ArgumentMatchers.any(Pageable.class))).thenReturn(filmsPage);					
 	}
 
 	@Test
@@ -61,9 +67,11 @@ class FilmServiceTest {
 	}
 	
 	@Test
-	@DisplayName("listAll returns all films in a list when successful")
-	void listAll_ReturnsAllFilmsInAList_WhenSuccessful() {
-		List<Film> allFilms = filmService.listAll();
+	@DisplayName("listAll returns all films in a Page object when successful")
+	void listAll_ReturnsAllFilmsInAPageObject_WhenSuccessful() {
+		Pageable pageable = PageRequest.of(0, 20);
+		
+		Page<Film> allFilms = filmService.listAll(pageable);
 		
 		Assertions.assertThat(allFilms).isNotEmpty().isNotNull();
 		Assertions.assertThat(allFilms).hasSize(1);
