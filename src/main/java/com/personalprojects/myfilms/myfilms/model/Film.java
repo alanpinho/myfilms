@@ -4,7 +4,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -31,4 +35,10 @@ public class Film {
 	
 	@Schema(description="The film's release year", example="1999")
 	private Integer releaseYear;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "streaming_service_id")
+	private StreamingService streamingService;
+	
 }
