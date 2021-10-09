@@ -2,6 +2,8 @@ package com.personalprojects.myfilms.myfilms.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,7 @@ public class StreamingServiceController {
 	}
 	
 	@PostMapping("/new")
-	public ResponseEntity<StreamingService> save(@RequestBody StreamingServicePostRequestBody streamingServicePostRequestBody){
+	public ResponseEntity<StreamingService> save(@Valid @RequestBody StreamingServicePostRequestBody streamingServicePostRequestBody){
 		return new ResponseEntity<>(streamingServiceService.save(streamingServicePostRequestBody), HttpStatus.CREATED);
 	}
 	
@@ -49,7 +51,7 @@ public class StreamingServiceController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Void> replace(@RequestBody StreamingServicePutRequestBody streamingServicePutRequestBody){
+	public ResponseEntity<Void> replace(@Valid @RequestBody StreamingServicePutRequestBody streamingServicePutRequestBody){
 		streamingServiceService.replace(streamingServicePutRequestBody);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
 	}
