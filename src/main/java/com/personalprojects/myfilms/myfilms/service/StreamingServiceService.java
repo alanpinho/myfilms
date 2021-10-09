@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.personalprojects.myfilms.myfilms.exception.BadRequestException;
+import com.personalprojects.myfilms.myfilms.mapper.StreamingServiceMapper;
 import com.personalprojects.myfilms.myfilms.model.StreamingService;
 import com.personalprojects.myfilms.myfilms.repository.StreamingServiceRepository;
+import com.personalprojects.myfilms.myfilms.requests.StreamingServicePostRequestBody;
+import com.personalprojects.myfilms.myfilms.requests.StreamingServicePutRequestBody;
 
 @Service
 public class StreamingServiceService {
@@ -25,7 +28,8 @@ public class StreamingServiceService {
 		return result;
 	}
 	
-	public StreamingService save(StreamingService streamingService){
+	public StreamingService save(StreamingServicePostRequestBody streamingServicePostRequestBody){
+		StreamingService streamingService = StreamingServiceMapper.INSTANCE.toStreamingService(streamingServicePostRequestBody);
 		return streamingServiceRepository.save(streamingService);
 	}
 	
@@ -33,8 +37,9 @@ public class StreamingServiceService {
 		streamingServiceRepository.delete(findStreamingServiceByIdOrThrowBadRequestException(id));
 	}
 	
-	public void replace(StreamingService streamingService) {
-		StreamingService savedStreamingService = findStreamingServiceByIdOrThrowBadRequestException(streamingService.getId());
+	public void replace(StreamingServicePutRequestBody streamingServicePutRequestBody) {
+		StreamingService savedStreamingService = findStreamingServiceByIdOrThrowBadRequestException(streamingServicePutRequestBody.getId());
+		StreamingService streamingService = StreamingServiceMapper.INSTANCE.toStreamingService(streamingServicePutRequestBody);
 		streamingService.setId(savedStreamingService.getId());
 		streamingServiceRepository.save(streamingService);		
 	}

@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personalprojects.myfilms.myfilms.model.StreamingService;
+import com.personalprojects.myfilms.myfilms.requests.StreamingServicePostRequestBody;
+import com.personalprojects.myfilms.myfilms.requests.StreamingServicePutRequestBody;
 import com.personalprojects.myfilms.myfilms.service.StreamingServiceService;
 
 @RestController
@@ -36,8 +38,8 @@ public class StreamingServiceController {
 	}
 	
 	@PostMapping("/new")
-	public ResponseEntity<StreamingService> save(@RequestBody StreamingService streamingService){
-		return new ResponseEntity<>(streamingServiceService.save(streamingService), HttpStatus.CREATED);
+	public ResponseEntity<StreamingService> save(@RequestBody StreamingServicePostRequestBody streamingServicePostRequestBody){
+		return new ResponseEntity<>(streamingServiceService.save(streamingServicePostRequestBody), HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -47,8 +49,8 @@ public class StreamingServiceController {
 	}
 	
 	@PutMapping
-	public ResponseEntity<Void> replace(@RequestBody StreamingService streamingService){
-		streamingServiceService.replace(streamingService);
+	public ResponseEntity<Void> replace(@RequestBody StreamingServicePutRequestBody streamingServicePutRequestBody){
+		streamingServiceService.replace(streamingServicePutRequestBody);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);		
 	}
 
