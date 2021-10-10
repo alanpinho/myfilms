@@ -34,7 +34,7 @@ public class StreamingServiceController {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<StreamingService> findFilmById(@PathVariable Long id){
+	public ResponseEntity<StreamingService> findStreamingServiceById(@PathVariable Long id){
 		StreamingService result = streamingServiceService.findStreamingServiceByIdOrThrowBadRequestException(id);
 		return ResponseEntity.ok(result);
 	}
@@ -45,7 +45,7 @@ public class StreamingServiceController {
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteFilm(@PathVariable Long id){
+	public ResponseEntity<Void> deleteStreamingService(@PathVariable Long id){
 		streamingServiceService.delete(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
