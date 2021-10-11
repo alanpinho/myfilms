@@ -1,3 +1,4 @@
+package com.personalprojects.myfilms.myfilms.controller;
 import java.util.List;
 
 import org.assertj.core.api.Assertions;
@@ -38,15 +39,14 @@ class FilmControllerTest {
 		
 		BDDMockito.when(filmServiceMock.findFilmByIdOrThrowBadRequestException(ArgumentMatchers.anyLong())).thenReturn(FilmCreator.createFilm());
 		BDDMockito.when(filmServiceMock.save(FilmPostRequestBodyCreator.createFilmPostRequestBody())).thenReturn(FilmCreator.createFilm());
-		BDDMockito.when(filmServiceMock.save(ArgumentMatchers.any())).thenReturn(FilmCreator.createFilm());
 		BDDMockito.doNothing().when(filmServiceMock).delete(ArgumentMatchers.anyLong());
 		BDDMockito.doNothing().when(filmServiceMock).replace(FilmPutRequestBodyCreator.createFilmPutRequestBody());
 	}
 	
 
 	@Test
-	@DisplayName("istAllFilms returns all films inside a page object when successful")
-	void listAllFilms_ReturnAllFilmsInsideAPageObject_WhenSuccessful() {
+	@DisplayName("listAllFilms returns all films inside a page object when successful")
+	void listAllFilms_ReturnsAllFilmsInsideAPageObject_WhenSuccessful() {
 		Page<Film> expectedFilms = filmController.listAllFilms(null).getBody();
 		
 		Page<Film> films = new PageImpl<>(List.of(FilmCreator.createFilm()));
@@ -56,8 +56,8 @@ class FilmControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Returns film by Id when successful")
-	void findFilmById_ReturnFilmById_WhenSuccessful() {
+	@DisplayName("findFilmById returns film by Id when successful")
+	void findFilmById_ReturnsFilmById_WhenSuccessful() {
 		Film filmFound = filmController.findFilmById(1L).getBody();
 		Film expectedFilm = FilmCreator.createFilm();
 		
@@ -68,8 +68,8 @@ class FilmControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Persists film in the database when successful")
-	void save_PersistsFilmInTheDatabase_WhenSuccessful() {
+	@DisplayName("save persists film in the database when successful")
+	void save_PersistsFilmInTheDB_WhenSuccessful() {
 		Film createdFilm = filmController.save(FilmPostRequestBodyCreator.createFilmPostRequestBody()).getBody();
 		Film expectedFilm = FilmCreator.createFilm();
 		
@@ -78,13 +78,8 @@ class FilmControllerTest {
 	}
 	
 	@Test
-	@DisplayName("Removes Film from database when successful")
+	@DisplayName("delete removes film from database when successful")
 	void delete_RemovesFilmFromDatabase_WhenSuccessful() {
-		/*
-		 * Linha abaixo comentada para explicar o que estamos comparando 
-		 * */
-		
-		// ResponseEntity<Void> entityStatusCode = filmController.deleteFilm(1L);
 		
 		Assertions.assertThatCode(() -> filmController.deleteFilm(1L)).doesNotThrowAnyException();
 		Assertions.assertThat(filmController.deleteFilm(1L).getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
