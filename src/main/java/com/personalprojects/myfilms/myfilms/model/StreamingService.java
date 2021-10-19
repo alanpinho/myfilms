@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -23,7 +25,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Table(name="tb_streaming_service")
-public class StreamingService {
+public class StreamingService extends RepresentationModel<StreamingService>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
